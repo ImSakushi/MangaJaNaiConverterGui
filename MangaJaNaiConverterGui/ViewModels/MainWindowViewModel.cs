@@ -520,6 +520,21 @@ namespace MangaJaNaiConverterGui.ViewModels
             set => this.RaiseAndSetIfChanged(ref _useFp16, value);
         }
 
+        private string _customBackendPath = string.Empty;
+        [DataMember]
+        public string CustomBackendPath
+        {
+            get => _customBackendPath;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _customBackendPath, value ?? string.Empty);
+                _pythonService.CustomBackendDirectory = _customBackendPath;
+                this.RaisePropertyChanged(nameof(BackendDirectoryDisplay));
+            }
+        }
+
+        public string BackendDirectoryDisplay => _pythonService.BackendDirectory;
+
 
         private bool _upscaling = false;
         [IgnoreDataMember]
@@ -1254,6 +1269,9 @@ namespace MangaJaNaiConverterGui.ViewModels
 
         public async Task CheckAndExtractBackend()
         {
+            // Propagate persisted custom backend path to the service
+            _pythonService.CustomBackendDirectory = _customBackendPath;
+
             await Task.Run(async () =>
             {
                 IsExtractingBackend = true;

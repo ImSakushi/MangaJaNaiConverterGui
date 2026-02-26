@@ -12,6 +12,7 @@ namespace MangaJaNaiConverterGui.Services
         Task<bool> IsBackendUpdated();
         bool AreModelsInstalled();
         string BackendUrl { get; }
+        string CustomBackendDirectory { get; set; }
         string BackendDirectory { get; }
         string LogsDirectory { get; }
         string PythonDirectory { get; }

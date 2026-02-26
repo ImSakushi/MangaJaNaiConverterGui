@@ -687,6 +687,19 @@
               </ScrollViewer>
 
               <StackPanel Orientation="Horizontal" Margin="10,10,0,10">
+                <TextBlock Margin="0,0,5,0" VerticalAlignment="Center">Backend Directory</TextBlock>
+                <TextBox Text="{Binding CustomBackendPath}" Width="500" />
+                <Button Margin="5,0,0,0" Content="Browse" Click="BrowseBackendDirectoryClick" />
+              </StackPanel>
+              <TextBlock Foreground="Gray" FontSize="12" Margin="10,0,0,0" TextWrapping="WrapWithOverflow" Width="700" HorizontalAlignment="Left">
+                Custom path for the backend (python, models, logs). Leave empty to use the default location. After changing this path, you must reinstall the Python environment.
+              </TextBlock>
+              <StackPanel Orientation="Horizontal" Margin="10,5,0,5">
+                <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Foreground="Gray" FontSize="12">Current:</TextBlock>
+                <SelectableTextBlock FontFamily="Consolas" Foreground="Gray" FontSize="12" VerticalAlignment="Center" Text="{Binding BackendDirectoryDisplay}" />
+              </StackPanel>
+
+              <StackPanel Orientation="Horizontal" Margin="10,10,0,10">
                 <Button FontWeight="Bold" Background="Red" Content="Reinstall Python Environment" Click="ReinstallBackendClick" />
                 <TextBlock Foreground="Gray" Width="400" TextWrapping="WrapWithOverflow" FontSize="12" VerticalAlignment="Center" Margin="20,0,0,0">
                   Reinstall the Python environment. Try this if you are having any problems getting upscales to work. This process may take several minutes.

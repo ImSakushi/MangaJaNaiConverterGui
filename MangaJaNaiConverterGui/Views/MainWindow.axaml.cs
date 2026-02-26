@@ -408,6 +408,34 @@ namespace MangaJaNaiConverterGui.Views
             }
         }
 
+        private async void BrowseBackendDirectoryClick(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is MainWindowViewModel vm)
+            {
+                var topLevel = TopLevel.GetTopLevel(this);
+                var storageProvider = topLevel.StorageProvider;
+
+                IStorageFolder? suggestedStartLocation = null;
+
+                if (!string.IsNullOrWhiteSpace(vm.CustomBackendPath) && Directory.Exists(vm.CustomBackendPath))
+                {
+                    suggestedStartLocation = await storageProvider.TryGetFolderFromPathAsync(new Uri(Path.GetFullPath(vm.CustomBackendPath)));
+                }
+
+                var folders = await storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+                {
+                    Title = "Select Backend Directory",
+                    AllowMultiple = false,
+                    SuggestedStartLocation = suggestedStartLocation
+                });
+
+                if (folders.Count >= 1)
+                {
+                    vm.CustomBackendPath = folders[0].TryGetLocalPath() ?? "";
+                }
+            }
+        }
+
         private async void ReinstallBackendClick(object? sender, RoutedEventArgs e)
         {
             if (DataContext is MainWindowViewModel vm)

@@ -45,7 +45,18 @@ namespace MangaJaNaiConverterGui.Services
             _updateManagerService = updateManagerService ?? Locator.Current.GetService<IUpdateManagerService>()!;
         }
 
-        public string BackendDirectory => (_updateManagerService?.IsInstalled ?? false) ? Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"MangaJaNaiConverterGui") : Path.GetFullPath(@".\backend");
+        private string _customBackendDirectory = string.Empty;
+        public string CustomBackendDirectory
+        {
+            get => _customBackendDirectory;
+            set => _customBackendDirectory = value ?? string.Empty;
+        }
+
+        public string BackendDirectory => !string.IsNullOrWhiteSpace(_customBackendDirectory)
+            ? Path.GetFullPath(_customBackendDirectory)
+            : (_updateManagerService?.IsInstalled ?? false)
+                ? Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"MangaJaNaiConverterGui")
+                : Path.GetFullPath(@".\backend");
 
         public string LogsDirectory => Path.Combine(BackendDirectory, "logs");
         public string ModelsDirectory => Path.Combine(BackendDirectory, "models");
